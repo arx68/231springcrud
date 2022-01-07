@@ -6,16 +6,24 @@ import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping(value = "/user", method=RequestMethod.PUT)
 public class UserController {
 
     private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @PostConstruct
+    void init() {
+        for (int i = 0; i < 10; i++) {
+            userService.saveUser(new User("Ivan", "Ivanov", i));
+        }
     }
 
     @GetMapping("/")
